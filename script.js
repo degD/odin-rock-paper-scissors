@@ -10,26 +10,37 @@ function getComputerChoice() {
 }
 
 /**
- * Prompt and return user's selection of rock-paper-scissors move. 
+ * Prompt and return user's selection of rock-paper-scissors move.
+ * @param {number} roundNumber The number of the current round
  * @returns {string} User's move
  */
-function getPlayerChoice() {
+function getPlayerChoice(roundNumber) {
     let outcomes = ['rock', 'paper', 'scissors'];
-    let playerInput = prompt('Rock, paper, scissors?').toLowerCase();
+    let playerInput;
+    try {
+        playerInput = prompt(`${roundNumber}# Rock, paper, scissors?`).toLowerCase();
+    } catch (error) {
+        return '';
+    }
     if (outcomes.indexOf(playerInput) >= 0) {
         return playerInput;
     }
+    return '';
 }
 
 /**
  * Return 0, -1, 1 based on the result of a rock-paper-scissors turn. Return 0 if
  * the ends with a tie, -1 if the computer wins and 1 the if player wins. 
- * @param {string} playerSelection Move selection of the player
- * @param {string} computerSelection Random move selection from the computer
+ * @param {string} playerSelection Move selection of the player.
+ * @param {string} computerSelection Random move selection from the computer.
  * @returns {number} Result of the turn
  */
 function playRound(playerSelection, computerSelection) {
-    if (playerSelection === 'rock') {
+    if (playerSelection === '') {
+        console.log('You lose! You had to make a move.');
+        return -1;
+    }
+    else if (playerSelection === 'rock') {
         if (computerSelection === 'rock') {
             console.log('Tie! Rock with rock!');
             return 0;
@@ -78,9 +89,10 @@ function playRound(playerSelection, computerSelection) {
  */
 function game() {
     let numberOfTurns = +prompt('How many turns do you want to play?');
+    if (numberOfTurns < 0) numberOfTurns = 0;
     let i = 0, result = 0;
     while (i < numberOfTurns) {
-        let playerChoice = getPlayerChoice();
+        let playerChoice = getPlayerChoice(i+1);
         let computerChoice = getComputerChoice();
         console.log(`Player: ${playerChoice}`);
         console.log(`Computer: ${computerChoice}`);
@@ -92,6 +104,7 @@ function game() {
             result += roundResult;
             i++;
         }
+        console.log('\n');
     }
     if (result < 0) {
         console.log('Game over. Computer win!');
@@ -104,4 +117,5 @@ function game() {
 
 
 // Starting the rock-paper-scissors game.
-game();
+console.log('Starting the game in 3 seconds...');
+setTimeout(game, 3000);
