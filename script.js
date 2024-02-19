@@ -117,5 +117,34 @@ function game() {
 
 
 // Starting the rock-paper-scissors game.
-console.log('Starting the game in 3 seconds...');
-setTimeout(game, 3000);
+// console.log('Starting the game in 3 seconds...');
+// setTimeout(game, 3000);
+
+
+
+let turnNumber = 5;
+
+
+// Scripts for selection page.
+// (Choosing move for the next turn...)
+
+const turnTitle = document.querySelector("#turn-title");
+turnTitle.textContent = "Turn number " + turnNumber;
+
+
+// Adding event listeners.
+const moves = document.querySelectorAll("#selection-choices img");
+moves.forEach(function (move) {
+    move.addEventListener("click", (e) => {
+        const selection = e.target;
+        console.log(selection["name"]);
+
+        // Blinking animation.
+        selection.style["border-color"] = "#EBF400";
+        setTimeout(() => {
+            selection.style["border-color"] = "#F57D1F";
+        }, 500);
+
+        
+    })
+})
