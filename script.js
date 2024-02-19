@@ -128,6 +128,7 @@ let turnNumber = 5;
 // Scripts for selection page.
 // (Choosing move for the next turn...)
 
+const selectionPage = document.querySelector("#selection-page");
 const turnTitle = document.querySelector("#turn-title");
 turnTitle.textContent = "Turn number " + turnNumber;
 
@@ -143,8 +144,9 @@ moves.forEach(function (move) {
         selection.style["border-color"] = "#EBF400";
         setTimeout(() => {
             selection.style["border-color"] = "#F57D1F";
+            selectionPage.style["display"] = "none";
         }, 500);
 
-        
+
     })
 })
