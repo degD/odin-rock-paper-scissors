@@ -1,0 +1,35 @@
+
+body {
+    margin: 0;
+    background: #000000;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#selection-page {
+    background: #000000;
+}
+
+#turn-title {
+    color: #F72798;
+    text-align: center;
+    margin: 0;
+    padding: 40px 0;
+    font-size: 60px;
+}
+
+#selection-choices {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+#selection-choices img {
+    height: 200px;
+    border: 8px #F57D1F dashed;
+}
