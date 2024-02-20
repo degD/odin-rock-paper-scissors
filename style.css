@@ -12,10 +12,12 @@ body {
 }
 
 #selection-page {
+    display: none;
     background: #333333;
+    display: block;
 }
 
-#turn-title {
+#turn-title, #outcome-title {
     color: #F72798;
     text-align: center;
     margin: 0;
@@ -32,4 +34,48 @@ body {
 #selection-choices img {
     height: 200px;
     border: 8px #F57D1F dashed;
+}
+
+#outcome-page {
+    background-color: #000000;
+    display: block;
+}
+
+#outcome-title {
+    padding-bottom: 20px;
+}
+
+#explanation, #choices {
+    margin: 0;
+    text-align: center;
+    color: #F57D1F;
+    font-size: 30px;
+}
+
+#previous-ai-title {
+    color: #EBF400;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+li {
+    font-size: 20px;
+    color: #F72798;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    width: 400px;
+    font-size: 50px;
+    border-radius: 20px;
+    border: 8px #EBF400 solid;
+    color: #F72798;
+    background: #000000;
 }
