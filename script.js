@@ -121,32 +121,79 @@ function game() {
 // setTimeout(game, 3000);
 
 
-
+let playerMove = "";
 let turnNumber = 5;
-
-
-// Scripts for selection page.
-// (Choosing move for the next turn...)
+let previousComputerMoves = {
+    "rock": 0,
+    "paper": 0,
+    "scissors": 0
+}
 
 const selectionPage = document.querySelector("#selection-page");
 const turnTitle = document.querySelector("#turn-title");
 turnTitle.textContent = "Turn number " + turnNumber;
 
+const outcomePage = document.querySelector("#outcome-page");
+const outcomeTitle = document.querySelector("#outcome-title");
+const choices = document.querySelector("#choices");
+const explanation = document.querySelector("#explanation");
+const prevCompMovesList = document.querySelector("#num-of-previous-ai-moves");
 
 // Adding event listeners.
 const moves = document.querySelectorAll("#selection-choices img");
 moves.forEach(function (move) {
-    move.addEventListener("click", (e) => {
+    move.addEventListener("click", e => {
         const selection = e.target;
         console.log(selection["name"]);
+        playerMove = selection["name"];
 
         // Blinking animation.
         selection.style["border-color"] = "#EBF400";
         setTimeout(() => {
             selection.style["border-color"] = "#F57D1F";
             selectionPage.style["display"] = "none";
+            outcomePage.style["display"] = "block";
         }, 500);
 
+        // Computer move.
+        let computerMove = getComputerChoice();
+        previousComputerMoves[computerMove] += 1;
+        console.log(previousComputerMoves);
 
+        // Choices.
+        choices.textContent = `Computer chose ${computerMove}, you chose ${playerMove}!`;
+        
+        // Round result.
+        let roundResult = playRound(playerMove, computerMove);
+        if (roundResult > 0) {
+            outcomeTitle.textContent = "You win!";
+            explanation.textContent = `${capitalize(playerMove)} beat ${computerMove}!`;
+        } else if (roundResult == 0) {
+            outcomeTitle.textContent = "Tie!";
+            explanation.textContent = "Moves are same.";
+
+        } else {
+            outcomeTitle.textContent = "You lose!";
+            explanation.textContent = `${capitalize(computerMove)} beat ${playerMove}!`;
+        }
+
+        // Update previous computer moves list on page.
+        Array.from(prevCompMovesList.children).forEach(li => {
+            console.log(li.className);
+            li.textContent = `${li.className}: ${previousComputerMoves[li.className]}`;
+        });
     })
-})
+});
+
+const nextTurnButton = document.querySelector("button");
+nextTurnButton.addEventListener("click", e => {
+    turnNumber -= 1;
+    turnTitle.textContent = "Turn number " + turnNumber;
+    outcomePage.style["display"] = "none";
+    selectionPage.style["display"] = "block";
+});
+
+
+function capitalize(str) {
+    return str[0].toUpperCase() + str.slice(1);
+}

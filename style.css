@@ -13,7 +13,7 @@ body {
 
 #selection-page {
     display: none;
-    background: #333333;
+    background: #000000;
     display: block;
 }
 
@@ -38,7 +38,7 @@ body {
 
 #outcome-page {
     background-color: #000000;
-    display: block;
+    display: none;
 }
 
 #outcome-title {
