@@ -1,32 +1,88 @@
 
-/**
- * Returns a random move outcome from a game of rock-paper-scissors.
- * @returns {string} The name of the outcome
- */
-function getComputerChoice() {
-    let outcomes = ['rock', 'paper', 'scissors'];
-    let index = Math.floor(Math.random() * 3);
-    return outcomes[index];
+// Defines.
+const selectionPage = document.querySelector("#selection-page");
+const turnTitle = document.querySelector("#turn-title");
+turnTitle.textContent = "Turn number " + turnNumber;
+
+const outcomePage = document.querySelector("#outcome-page");
+const outcomeTitle = document.querySelector("#outcome-title");
+const choices = document.querySelector("#choices");
+const explanation = document.querySelector("#explanation");
+const prevCompMovesList = document.querySelector("#num-of-previous-ai-moves");
+
+// Global Variables.
+let playerMove = "";
+let turnNumber = 5;
+let previousComputerMoves = {
+    "rock": 0,
+    "paper": 0,
+    "scissors": 0
 }
 
+// Adding event listener to move selection divs.
+const moves = document.querySelectorAll("#selection-choices img");
+moves.forEach(function (move) {
+    move.addEventListener("click", e => {
+        const selection = e.target;
+        console.log(selection["name"]);
+        playerMove = selection["name"];
+
+        // Blinking animation.
+        selection.style["border-color"] = "#EBF400";
+        setTimeout(() => {
+            selection.style["border-color"] = "#F57D1F";
+            selectionPage.style["display"] = "none";
+            outcomePage.style["display"] = "block";
+        }, 500);
+
+        // Computer move.
+        let computerMove = getComputerChoice();
+        previousComputerMoves[computerMove] += 1;
+        console.log(previousComputerMoves);
+
+        // Choices.
+        choices.textContent = `Computer chose ${computerMove}, you chose ${playerMove}!`;
+        
+        // Round result.
+        let roundResult = playRound(playerMove, computerMove);
+        if (roundResult > 0) {
+            outcomeTitle.textContent = "You win!";
+            explanation.textContent = `${capitalize(playerMove)} beat ${computerMove}!`;
+        } else if (roundResult == 0) {
+            outcomeTitle.textContent = "Tie!";
+            explanation.textContent = "Moves are same.";
+
+        } else {
+            outcomeTitle.textContent = "You lose!";
+            explanation.textContent = `${capitalize(computerMove)} beat ${playerMove}!`;
+        }
+
+        // Update previous computer moves list on page.
+        Array.from(prevCompMovesList.children).forEach(li => {
+            console.log(li.className);
+            li.textContent = `${li.className}: ${previousComputerMoves[li.className]}`;
+        });
+    })
+});
+
+// Adding event listener to next turn button.
+const nextTurnButton = document.querySelector("button");
+nextTurnButton.addEventListener("click", e => {
+    turnNumber -= 1;
+    turnTitle.textContent = "Turn number " + turnNumber;
+    outcomePage.style["display"] = "none";
+    selectionPage.style["display"] = "block";
+});
+
 /**
- * Prompt and return user's selection of rock-paper-scissors move.
- * @param {number} roundNumber The number of the current round
- * @returns {string} User's move
+ * Make the first character of the string upper case.
+ * @param {string} str String to capitalize.
+ * @returns {string} Capitalized string.
  */
-function getPlayerChoice(roundNumber) {
-    let outcomes = ['rock', 'paper', 'scissors'];
-    let playerInput;
-    try {
-        playerInput = prompt(`${roundNumber}# Rock, paper, scissors?`).toLowerCase();
-    } catch (error) {
-        return '';
-    }
-    if (outcomes.indexOf(playerInput) >= 0) {
-        return playerInput;
-    }
-    return '';
+function capitalize(str) {
+    return str[0].toUpperCase() + str.slice(1);
 }
+
 
 /**
  * Return 0, -1, 1 based on the result of a rock-paper-scissors turn. Return 0 if
@@ -82,118 +138,4 @@ function playRound(playerSelection, computerSelection) {
             return 0;
         }
     }
-}
-
-/**
- * Main function of the rock-paper-scissors game.
- */
-function game() {
-    let numberOfTurns = +prompt('How many turns do you want to play?');
-    if (numberOfTurns < 0) numberOfTurns = 0;
-    let i = 0, result = 0;
-    while (i < numberOfTurns) {
-        let playerChoice = getPlayerChoice(i+1);
-        let computerChoice = getComputerChoice();
-        console.log(`Player: ${playerChoice}`);
-        console.log(`Computer: ${computerChoice}`);
-
-        let roundResult = playRound(playerChoice, computerChoice);
-        if (roundResult == 0) {
-            console.log('Re-play the round!');
-        } else {
-            result += roundResult;
-            i++;
-        }
-        console.log('\n');
-    }
-    if (result < 0) {
-        console.log('Game over. Computer win!');
-    } else if (result == 0) {
-        console.log('TIE!');
-    } else {
-        console.log('Good game. Player win!');
-    }
-}
-
-
-// Starting the rock-paper-scissors game.
-// console.log('Starting the game in 3 seconds...');
-// setTimeout(game, 3000);
-
-
-let playerMove = "";
-let turnNumber = 5;
-let previousComputerMoves = {
-    "rock": 0,
-    "paper": 0,
-    "scissors": 0
-}
-
-const selectionPage = document.querySelector("#selection-page");
-const turnTitle = document.querySelector("#turn-title");
-turnTitle.textContent = "Turn number " + turnNumber;
-
-const outcomePage = document.querySelector("#outcome-page");
-const outcomeTitle = document.querySelector("#outcome-title");
-const choices = document.querySelector("#choices");
-const explanation = document.querySelector("#explanation");
-const prevCompMovesList = document.querySelector("#num-of-previous-ai-moves");
-
-// Adding event listeners.
-const moves = document.querySelectorAll("#selection-choices img");
-moves.forEach(function (move) {
-    move.addEventListener("click", e => {
-        const selection = e.target;
-        console.log(selection["name"]);
-        playerMove = selection["name"];
-
-        // Blinking animation.
-        selection.style["border-color"] = "#EBF400";
-        setTimeout(() => {
-            selection.style["border-color"] = "#F57D1F";
-            selectionPage.style["display"] = "none";
-            outcomePage.style["display"] = "block";
-        }, 500);
-
-        // Computer move.
-        let computerMove = getComputerChoice();
-        previousComputerMoves[computerMove] += 1;
-        console.log(previousComputerMoves);
-
-        // Choices.
-        choices.textContent = `Computer chose ${computerMove}, you chose ${playerMove}!`;
-        
-        // Round result.
-        let roundResult = playRound(playerMove, computerMove);
-        if (roundResult > 0) {
-            outcomeTitle.textContent = "You win!";
-            explanation.textContent = `${capitalize(playerMove)} beat ${computerMove}!`;
-        } else if (roundResult == 0) {
-            outcomeTitle.textContent = "Tie!";
-            explanation.textContent = "Moves are same.";
-
-        } else {
-            outcomeTitle.textContent = "You lose!";
-            explanation.textContent = `${capitalize(computerMove)} beat ${playerMove}!`;
-        }
-
-        // Update previous computer moves list on page.
-        Array.from(prevCompMovesList.children).forEach(li => {
-            console.log(li.className);
-            li.textContent = `${li.className}: ${previousComputerMoves[li.className]}`;
-        });
-    })
-});
-
-const nextTurnButton = document.querySelector("button");
-nextTurnButton.addEventListener("click", e => {
-    turnNumber -= 1;
-    turnTitle.textContent = "Turn number " + turnNumber;
-    outcomePage.style["display"] = "none";
-    selectionPage.style["display"] = "block";
-});
-
-
-function capitalize(str) {
-    return str[0].toUpperCase() + str.slice(1);
 }
