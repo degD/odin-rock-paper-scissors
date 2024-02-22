@@ -2,7 +2,7 @@
 // Defines.
 const selectionPage = document.querySelector("#selection-page");
 const turnTitle = document.querySelector("#turn-title");
-turnTitle.textContent = "Turn number " + turnNumber;
+turnTitle.textContent = "Turn number " + 5;
 
 const outcomePage = document.querySelector("#outcome-page");
 const outcomeTitle = document.querySelector("#outcome-title");
@@ -83,7 +83,6 @@ function capitalize(str) {
     return str[0].toUpperCase() + str.slice(1);
 }
 
-
 /**
  * Return 0, -1, 1 based on the result of a rock-paper-scissors turn. Return 0 if
  * the ends with a tie, -1 if the computer wins and 1 the if player wins. 
@@ -138,4 +137,14 @@ function playRound(playerSelection, computerSelection) {
             return 0;
         }
     }
+}
+
+/**
+ * Randomly select a move for computer in Rock Paper Scissors game.
+ * @returns {string} Computer's RPS move.
+ */
+function getComputerChoice() {
+    let possibleMoves = ["rock", "paper", "scissors"];
+    let choiceIndex = Math.floor(Math.random() * 3);
+    return possibleMoves[choiceIndex];
 }
