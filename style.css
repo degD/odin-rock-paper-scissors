@@ -79,3 +79,7 @@ button {
     color: #F72798;
     background: #000000;
 }
+
+button:hover {
+    border-color: #FFFFFF;
+}
