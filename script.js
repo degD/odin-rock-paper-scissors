@@ -10,7 +10,15 @@ const choices = document.querySelector("#choices");
 const explanation = document.querySelector("#explanation");
 const prevCompMovesList = document.querySelector("#num-of-previous-ai-moves");
 
+const gameOverPage = document.querySelector("#gameover-page");
+const gameOverTitle = document.querySelector("#gameover-title");
+const gameOverResult = document.querySelector("#result");
+const gameOverResolution = document.querySelector("#resolution");
+
 // Global Variables.
+let roundCount = 0;
+let playerScore = 0;
+let computerScore = 0;
 let playerMove = "";
 let turnNumber = 5;
 let previousComputerMoves = {
@@ -46,16 +54,23 @@ moves.forEach(function (move) {
         // Round result.
         let roundResult = playRound(playerMove, computerMove);
         if (roundResult > 0) {
-            outcomeTitle.textContent = "You win!";
+            turnNumber -= 1;
+            outcomeTitle.textContent = "Player get score!";
             explanation.textContent = `${capitalize(playerMove)} beat ${computerMove}!`;
+            playerScore += 1;
         } else if (roundResult == 0) {
             outcomeTitle.textContent = "Tie!";
             explanation.textContent = "Moves are same.";
-
         } else {
-            outcomeTitle.textContent = "You lose!";
+            turnNumber -= 1;
+            outcomeTitle.textContent = "Computer get score!";
             explanation.textContent = `${capitalize(computerMove)} beat ${playerMove}!`;
+            computerScore += 1;
         }
+        roundCount += 1;
+
+        // Log game info.
+        console.log(`Player: ${playerScore}, Computer: ${computerScore}, Round: ${roundCount}`);
 
         // Update previous computer moves list on page.
         Array.from(prevCompMovesList.children).forEach(li => {
@@ -66,12 +81,16 @@ moves.forEach(function (move) {
 });
 
 // Adding event listener to next turn button.
-const nextTurnButton = document.querySelector("button");
+const nextTurnButton = document.querySelector("button#next");
 nextTurnButton.addEventListener("click", e => {
-    turnNumber -= 1;
-    turnTitle.textContent = "Turn number " + turnNumber;
-    outcomePage.style["display"] = "none";
-    selectionPage.style["display"] = "block";
+    if (isGameOver(turnNumber)) {
+        outcomePage.style["display"] = "none";
+        gameOverPage.style["display"] = "block";
+    } else {
+        turnTitle.textContent = "Turn number " + turnNumber;
+        outcomePage.style["display"] = "none";
+        selectionPage.style["display"] = "block";
+    }
 });
 
 /**
@@ -147,4 +166,13 @@ function getComputerChoice() {
     let possibleMoves = ["rock", "paper", "scissors"];
     let choiceIndex = Math.floor(Math.random() * 3);
     return possibleMoves[choiceIndex];
+}
+
+/**
+ * Return true if turn number is 0 or less, false otherwise.
+ * @param {number} turnNumber Number of turns played (different than rounds).
+ * @returns {boolean} result of a question?
+ */
+function isGameOver(turnNumber) {
+    return (turnNumber <= 0);
 }
