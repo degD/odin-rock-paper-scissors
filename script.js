@@ -13,7 +13,6 @@ const prevCompMovesList = document.querySelector("#num-of-previous-ai-moves");
 const gameOverPage = document.querySelector("#gameover-page");
 const gameOverTitle = document.querySelector("#gameover-title");
 const gameOverResult = document.querySelector("#result");
-const gameOverResolution = document.querySelector("#resolution");
 
 // Global Variables.
 let roundCount = 0;
@@ -93,11 +92,33 @@ nextTurnButton.addEventListener("click", e => {
     if (isGameOver(currentTurnNumber, turnNumber)) {
         outcomePage.style["display"] = "none";
         gameOverPage.style["display"] = "block";
+
+        // If game over, add scores and info.
+        document.querySelector("#resolution li.player-score").textContent = `Player: ${playerScore}`;
+        document.querySelector("#resolution li.computer-score").textContent = `Computer: ${computerScore}`;
+        document.querySelector("#resolution li.rounds").textContent = `Rounds: ${roundCount}`;
+        document.querySelector("#resolution li.turns").textContent = `Turns: ${turnNumber}`;
+
+        // Overall game result.
+        if (playerScore > computerScore) {
+            gameOverResult.textContent = "You win!";
+        } else if (playerScore < computerScore) {
+            gameOverResult.textContent = "You lose!";
+        } else {
+            gameOverResult.textContent = "Tie!";
+        }
+        
     } else {
         turnTitle.textContent = `Turn number ${currentTurnNumber}/${turnNumber}`;
         outcomePage.style["display"] = "none";
         selectionPage.style["display"] = "block";
     }
+});
+
+const playAgainButton = document.querySelector("button#replay");
+playAgainButton.addEventListener("click", e => {
+
+    // Return to start page.
 });
 
 /**

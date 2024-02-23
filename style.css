@@ -73,7 +73,7 @@ ul {
     text-align: center;
 }
 
-li {
+#num-of-previous-ai-moves li {
     font-size: 20px;
     color: #F72798;
 }
@@ -95,4 +95,24 @@ button:hover {
 
 #gameover-page {
     display: none;
+}
+
+#gameover-title {
+    color: #F72798;
+    text-align: center;
+    margin: 0;
+    padding-top: 40px;
+    font-size: 60px;
+}
+
+#result {
+    margin: 0;
+    text-align: center;
+    color: #F72798;
+    font-size: 30px;  
+}
+
+#resolution li {
+    font-size: 20px;
+    color: #F57D1F;
 }
