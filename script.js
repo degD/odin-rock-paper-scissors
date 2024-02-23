@@ -55,16 +55,16 @@ moves.forEach(function (move) {
         let roundResult = playRound(playerMove, computerMove);
         if (roundResult > 0) {
             turnNumber -= 1;
-            outcomeTitle.textContent = "Player get score!";
-            explanation.textContent = `${capitalize(playerMove)} beat ${computerMove}!`;
+            outcomeTitle.textContent = "Player gets score!";
+            explanation.textContent = `${capitalize(playerMove)} beats ${computerMove}!`;
             playerScore += 1;
         } else if (roundResult == 0) {
             outcomeTitle.textContent = "Tie!";
             explanation.textContent = "Moves are same.";
         } else {
             turnNumber -= 1;
-            outcomeTitle.textContent = "Computer get score!";
-            explanation.textContent = `${capitalize(computerMove)} beat ${playerMove}!`;
+            outcomeTitle.textContent = "Computer gets score!";
+            explanation.textContent = `${capitalize(computerMove)} beats ${playerMove}!`;
             computerScore += 1;
         }
         roundCount += 1;
@@ -77,6 +77,12 @@ moves.forEach(function (move) {
             console.log(li.className);
             li.textContent = `${li.className}: ${previousComputerMoves[li.className]}`;
         });
+
+        // Update score titles.
+        const playerScoreTitle = document.querySelector("h2.score-title#player");
+        const computerScoreTitle = document.querySelector("h2.score-title#computer");
+        playerScoreTitle.textContent = `Player: ${playerScore}`;
+        computerScoreTitle.textContent = `Computer: ${computerScore}`;
     })
 });
 
