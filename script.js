@@ -2,7 +2,7 @@
 // Defines.
 const selectionPage = document.querySelector("#selection-page");
 const turnTitle = document.querySelector("#turn-title");
-turnTitle.textContent = "Turn number " + 5;
+turnTitle.textContent = "Turn number 1/5";
 
 const outcomePage = document.querySelector("#outcome-page");
 const outcomeTitle = document.querySelector("#outcome-title");
@@ -21,6 +21,7 @@ let playerScore = 0;
 let computerScore = 0;
 let playerMove = "";
 let turnNumber = 5;
+let currentTurnNumber = 1;
 let previousComputerMoves = {
     "rock": 0,
     "paper": 0,
@@ -54,7 +55,7 @@ moves.forEach(function (move) {
         // Round result.
         let roundResult = playRound(playerMove, computerMove);
         if (roundResult > 0) {
-            turnNumber -= 1;
+            currentTurnNumber += 1;
             outcomeTitle.textContent = "Player gets score!";
             explanation.textContent = `${capitalize(playerMove)} beats ${computerMove}!`;
             playerScore += 1;
@@ -62,7 +63,7 @@ moves.forEach(function (move) {
             outcomeTitle.textContent = "Tie!";
             explanation.textContent = "Moves are same.";
         } else {
-            turnNumber -= 1;
+            currentTurnNumber += 1;
             outcomeTitle.textContent = "Computer gets score!";
             explanation.textContent = `${capitalize(computerMove)} beats ${playerMove}!`;
             computerScore += 1;
@@ -89,11 +90,11 @@ moves.forEach(function (move) {
 // Adding event listener to next turn button.
 const nextTurnButton = document.querySelector("button#next");
 nextTurnButton.addEventListener("click", e => {
-    if (isGameOver(turnNumber)) {
+    if (isGameOver(currentTurnNumber, turnNumber)) {
         outcomePage.style["display"] = "none";
         gameOverPage.style["display"] = "block";
     } else {
-        turnTitle.textContent = "Turn number " + turnNumber;
+        turnTitle.textContent = `Turn number ${currentTurnNumber}/${turnNumber}`;
         outcomePage.style["display"] = "none";
         selectionPage.style["display"] = "block";
     }
@@ -176,9 +177,9 @@ function getComputerChoice() {
 
 /**
  * Return true if turn number is 0 or less, false otherwise.
- * @param {number} turnNumber Number of turns played (different than rounds).
+ * @param {number} currentTurnNumber Number of turns played (different than rounds).
  * @returns {boolean} result of a question?
  */
-function isGameOver(turnNumber) {
-    return (turnNumber <= 0);
+function isGameOver(currentTurnNumber, turnNumber) {
+    return (currentTurnNumber > turnNumber);
 }
