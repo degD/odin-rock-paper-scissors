@@ -14,10 +14,9 @@ body {
 #selection-page {
     display: none;
     background: #000000;
-    display: block;
 }
 
-#turn-title, #outcome-title {
+#turn-title, #outcome-title, #welcome-title {
     color: #F72798;
     text-align: center;
     margin: 0;
@@ -105,7 +104,7 @@ button:hover {
     font-size: 60px;
 }
 
-#result {
+#result, #made-by {
     margin: 0;
     text-align: center;
     color: #F72798;
@@ -115,4 +114,32 @@ button:hover {
 #resolution li {
     font-size: 20px;
     color: #F57D1F;
+}
+
+#welcome-page {
+    display: block;
+    background: #000000;
+}
+
+#turn-number-label {
+    display: block;
+    color: #F57D1F;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+input#turn-number {
+    display: block;
+    width: 200px;
+    border: solid 2px #EBF400;
+    border-radius: 4px;
+    color: #FFFFFF;
+    background: #000000;
+    user-select: none;
+    margin: auto;
+}
+
+input:focus {
+    outline-width: 0;
 }

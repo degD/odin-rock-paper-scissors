@@ -2,7 +2,7 @@
 // Defines.
 const selectionPage = document.querySelector("#selection-page");
 const turnTitle = document.querySelector("#turn-title");
-turnTitle.textContent = "Turn number 1/5";
+turnTitle.textContent = "Turn number 1/3";
 
 const outcomePage = document.querySelector("#outcome-page");
 const outcomeTitle = document.querySelector("#outcome-title");
@@ -19,7 +19,7 @@ let roundCount = 0;
 let playerScore = 0;
 let computerScore = 0;
 let playerMove = "";
-let turnNumber = 5;
+let turnNumber = 3;
 let currentTurnNumber = 1;
 let previousComputerMoves = {
     "rock": 0,
