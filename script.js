@@ -14,6 +14,9 @@ const gameOverPage = document.querySelector("#gameover-page");
 const gameOverTitle = document.querySelector("#gameover-title");
 const gameOverResult = document.querySelector("#result");
 
+const welcomePage = document.querySelector("#welcome-page")
+const turnNumberField = document.querySelector("input#turn-number");
+
 // Global Variables.
 let roundCount = 0;
 let playerScore = 0;
@@ -115,10 +118,38 @@ nextTurnButton.addEventListener("click", e => {
     }
 });
 
+// Adding event listener for "play again" button.
 const playAgainButton = document.querySelector("button#replay");
 playAgainButton.addEventListener("click", e => {
+    gameOverPage.style["display"] = "none";
+    welcomePage.style["display"] = "block";
+});
 
-    // Return to start page.
+// Adding event listener for "play game" button.
+const playGameButton = document.querySelector("button#play");
+playGameButton.addEventListener("click", e => {
+    welcomePage.style["display"] = "none";
+    selectionPage.style["display"] = "block";
+
+    // Read turn number from input field.
+    console.log(turnNumberField.value);
+    turnNumber = turnNumberField.value; 
+    turnNumberField.value = null;
+    currentTurnNumber = 1;
+
+    // Reset other global variables.
+    roundCount = 0;
+    playerScore = 0;
+    computerScore = 0;
+    playerMove = "";
+    previousComputerMoves = {
+        "rock": 0,
+        "paper": 0,
+        "scissors": 0
+    }
+
+    // Set initial turn number title.
+    turnTitle.textContent = `Turn number ${currentTurnNumber}/${turnNumber}`
 });
 
 /**
