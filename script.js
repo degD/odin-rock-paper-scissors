@@ -2,6 +2,8 @@
 // Defines.
 const selectionPage = document.querySelector("#selection-page");
 const turnTitle = document.querySelector("#turn-title");
+const playerScoreTitle = document.querySelector("h2.score-title#player");
+const computerScoreTitle = document.querySelector("h2.score-title#computer");
 turnTitle.textContent = "Turn number 1/3";
 
 const outcomePage = document.querySelector("#outcome-page");
@@ -82,8 +84,6 @@ moves.forEach(function (move) {
         });
 
         // Update score titles.
-        const playerScoreTitle = document.querySelector("h2.score-title#player");
-        const computerScoreTitle = document.querySelector("h2.score-title#computer");
         playerScoreTitle.textContent = `Player: ${playerScore}`;
         computerScoreTitle.textContent = `Computer: ${computerScore}`;
     })
@@ -134,22 +134,31 @@ playGameButton.addEventListener("click", e => {
     // Read turn number from input field.
     console.log(turnNumberField.value);
     turnNumber = turnNumberField.value; 
-    turnNumberField.value = null;
-    currentTurnNumber = 1;
-
+    
     // Reset other global variables.
     roundCount = 0;
     playerScore = 0;
     computerScore = 0;
     playerMove = "";
+    currentTurnNumber = 1;
     previousComputerMoves = {
         "rock": 0,
         "paper": 0,
         "scissors": 0
     }
+    turnNumberField.value = null;
+    playerScoreTitle.textContent = "Player: 0";
+    computerScoreTitle.textContent = "Computer: 0";
 
     // Set initial turn number title.
     turnTitle.textContent = `Turn number ${currentTurnNumber}/${turnNumber}`
+});
+
+// Add event listener for input field, disable "play game" button unless a positive
+// integer is entered.
+turnNumberField.addEventListener("input", e => {
+    console.log(`Is value pos int: ${checkFieldInput(e.target.value)}`);
+    playGameButton.disabled = !checkFieldInput(e.target.value);
 });
 
 /**
@@ -234,4 +243,17 @@ function getComputerChoice() {
  */
 function isGameOver(currentTurnNumber, turnNumber) {
     return (currentTurnNumber > turnNumber);
+}
+
+/**
+ * Return true if field input is a positive integer. False otherwise.
+ * @param {*} fieldInput Input value from a number input field.
+ * @returns {boolean} resolt of the check.
+ */
+function checkFieldInput(fieldInput) {
+    let fieldNumber = +fieldInput;
+    if ((typeof fieldNumber == "number") && Number.isInteger(fieldNumber) && (fieldNumber > 0)) {
+        return true;
+    } 
+    return false;
 }

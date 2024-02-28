@@ -143,3 +143,9 @@ input#turn-number {
 input:focus {
     outline-width: 0;
 }
+
+button#play:disabled {
+    border-color: #888888;
+    color: #888888;
+    background: #AAAAAA;
+}
